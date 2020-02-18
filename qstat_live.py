@@ -31,7 +31,7 @@ def main_menu(stdscr):
         # Call qstat
         process = subprocess.Popen('qstat', stdout=subprocess.PIPE)
         stdout, stderr = process.communicate()
-        qstat = str(stdout)[2:-1].split('\\n')
+        qstat = str(stdout)[2:-1].split('\\n')[:-1]
 
         # Strings
         statusbarstr = " Miguel Romero 2020 | github.com/romeromig | press 'q' to exit "

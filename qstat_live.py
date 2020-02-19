@@ -36,6 +36,7 @@ def main_menu(stdscr):
         # Strings
         statusbarstr = " Miguel Romero 2020 | github.com/romeromig | press 'q' to exit "
         title = " qstat, {} jobs".format(len(qstat)-2)
+        title_empty = " qstat, no jobs"
 
         # Centering calculations
         start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
@@ -49,8 +50,12 @@ def main_menu(stdscr):
         # Rendering title
         stdscr.attron(curses.color_pair(3))
         stdscr.attron(curses.A_BOLD)
-        stdscr.addstr(0, 0, title)
-        stdscr.addstr(0, len(title), " " * (width - len(title) - 1))
+        if len(qstat)-2 == -2:
+            stdscr.addstr(0, 0, title_empty)
+            stdscr.addstr(0, len(title_empty), " " * (width - len(title) - 1))
+        else:
+            stdscr.addstr(0, 0, title)
+            stdscr.addstr(0, len(title), " " * (width - len(title) - 1))
         stdscr.attroff(curses.color_pair(3))
 
         # Turning off attributes for title

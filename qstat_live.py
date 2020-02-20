@@ -16,11 +16,22 @@ def main_menu(stdscr):
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
+    # Set mode
+    switch = 0
+
     # Loop where k is the last character pressed
     while True:
 
         if k == ord('q'):
             sys.exit()
+
+        # Respond if the switch was pressed
+        if k == ord('.'):
+            if switch == 0:
+                switch = 1
+            else:
+                switch = 0
+            k = -1
 
         # Initialization
         curses.curs_set(False)
@@ -29,14 +40,21 @@ def main_menu(stdscr):
         height, width = stdscr.getmaxyx()
 
         # Call qstat
-        process = subprocess.Popen('qstat', stdout=subprocess.PIPE)
+        if switch == 0:
+            process = subprocess.Popen("qstat -u '*'", stdout=subprocess.PIPE, shell=True)
+        else:
+            process = subprocess.Popen('qstat', stdout=subprocess.PIPE)
         stdout, stderr = process.communicate()
         qstat = str(stdout)[2:-1].split('\\n')[:-1]
 
         # Strings
-        statusbarstr = " Miguel Romero 2020 | github.com/romeromig | press 'q' to exit "
-        title = " qstat, {} jobs".format(len(qstat)-2)
-        title_empty = " qstat, no jobs"
+        statusbarstr = " github.com/romeromig | '.' to toggle all or user | 'q' to exit "
+        if switch == 0:
+            title = " qstat all users, {} jobs".format(len(qstat)-2)
+            title_empty = " qstat all users, no jobs"
+        if switch == 1:
+            title = " qstat current user, {} jobs".format(len(qstat)-2)
+            title_empty = " qstat current user, no jobs"
 
         # Centering calculations
         start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)

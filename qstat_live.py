@@ -48,7 +48,7 @@ def main_menu(stdscr):
         qstat = str(stdout)[2:-1].split('\\n')[:-1]
 
         # Strings
-        statusbarstr = " github.com/romeromig | '.' to toggle all or user | 'q' to exit "
+        statusbarstr = " github.com/miferg | '.' to toggle all or user | 'q' to exit "
         if switch == 0:
             title = " qstat all users, {} jobs".format(len(qstat)-2)
             title_empty = " qstat all users, no jobs"
